@@ -40,8 +40,6 @@ public class CheckboxesTest {
         System.out.println("is one selected: "+one.isSelected());
         System.out.println("is two selected: "+two.isSelected());
 
-
-
     }
 
 
