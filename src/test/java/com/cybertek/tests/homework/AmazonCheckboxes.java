@@ -3,6 +3,7 @@ package com.cybertek.tests.homework;
 import com.cybertek.utilities.BrowserUtils;
 import com.cybertek.utilities.WebDriverFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -116,11 +117,76 @@ public class AmazonCheckboxes {
         Collections.sort(stringDepartmentsCopy);
 
         Assert.assertNotEquals(stringDepartments,stringDepartmentsCopy);
+    }
 
+    @Test
+    public void main_departments (){
+        driver.get("https://www.amazon.com/gp/site-directory");
+        Select allDeparts = new Select(driver.findElement(By.id("searchDropdownBox")));
+        List<WebElement> allDepartments = allDeparts.getOptions();
+        List<String> stringDeparts = BrowserUtils.getElementsText(allDepartments);
+
+   List<WebElement> allMainDep = driver.findElements(By.cssSelector("h2.fsdDeptTitle"));
+        List<String> mainDepartments = BrowserUtils.getElementsText(allDepartments);
+
+        for (String mainDepartment : mainDepartments) {
+            Assert.assertTrue(stringDeparts.contains(mainDepartment));
+        }
 
     }
 
+    @Test
+    public void links (){
+        driver.get("https://www.w3schools.com/");
+        List<WebElement> allLinks = driver.findElements(By.tagName("a"));
 
+        for (WebElement allLink : allLinks) {
+            if (allLink.isDisplayed()){
+                System.out.println(allLink.getText());
+                System.out.println(allLink.getAttribute("href"));
+            }
+        }
+    }
+
+    @Test
+    public void validLinks (){
+        driver.get("https://www.w3schools.com/");
+List<WebElement> allLinks = driver.findElements(By.tagName("a"));
+            Assert.assertTrue(allLinks.contains("http"));
+}
+
+    @Test
+    public void cart () throws InterruptedException {
+        driver.get("https://amazon.com");
+        WebElement searchInput = driver.findElement(By.id("twotabsearchtextbox"));
+        searchInput.sendKeys("wooden spoon"+ Keys.ENTER);
+        Random rand = new Random();
+        // get all result
+        Thread.sleep(2000);
+        List<WebElement> allReusltsName = driver.findElements(By.cssSelector("span[class='a-size-base-plus a-color-base a-text-normal']"));
+        List<WebElement> allReusltsPrice = driver.findElements(By.cssSelector("a[class='a-size-base a-link-normal s-no-hover a-text-normal'] >  span:nth-of-type(1)>  span:nth-of-type(1)"));
+
+        System.out.println("allReusltsName = " + allReusltsName.size());
+
+        int randomNr = rand.nextInt(allReusltsName.size());
+        String name = allReusltsName.get(randomNr).getText();
+        String price = allReusltsPrice.get(randomNr).getText();
+        System.out.println("price = " + price);
+
+        allReusltsName.get(randomNr).click();
+        Thread.sleep(2000);
+        Select quantity = new Select(driver.findElement(By.id("quantity")));
+            String actualQuantity = quantity.getFirstSelectedOption().getAttribute("innerHTML").replaceAll("\\s", "");
+
+            Assert.assertEquals(actualQuantity,"1");
+
+            String nameOnPage = driver.findElement(By.id("productTitle")).getText();
+            String priceOnPage = driver.findElement(By.id("price_inside_buybox")).getText();
+
+        Assert.assertEquals(nameOnPage,name);
+        Assert.assertEquals(priceOnPage,price);
+
+    }
 
 
 }
