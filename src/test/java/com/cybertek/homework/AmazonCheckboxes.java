@@ -1,4 +1,4 @@
-package com.cybertek.tests.homework;
+package com.cybertek.homework;
 
 import com.cybertek.utilities.BrowserUtils;
 import com.cybertek.utilities.WebDriverFactory;
@@ -13,7 +13,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class AmazonCheckboxes {
