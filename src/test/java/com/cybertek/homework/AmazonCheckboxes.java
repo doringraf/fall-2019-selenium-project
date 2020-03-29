@@ -161,24 +161,29 @@ List<WebElement> allLinks = driver.findElements(By.tagName("a"));
         searchInput.sendKeys("wooden spoon"+ Keys.ENTER);
         Random rand = new Random();
         // get all result
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         List<WebElement> allReusltsName = driver.findElements(By.cssSelector("span[class='a-size-base-plus a-color-base a-text-normal']"));
-        List<WebElement> allReusltsPrice = driver.findElements(By.cssSelector("a[class='a-size-base a-link-normal s-no-hover a-text-normal'] >  span:nth-of-type(1)>  span:nth-of-type(1)"));
+        List<WebElement> wholePrice = driver.findElements(By.cssSelector("span[class='a-price-whole']"));
+        List<WebElement> centsPrice = driver.findElements(By.cssSelector("span[class='a-price-fraction']"));
+        List<String> wholePriceStr = BrowserUtils.getElementsText(wholePrice);
+        List<String> centsPriceStr = BrowserUtils.getElementsText(centsPrice);
+        List<String> fullPrice = new ArrayList<>();
 
-        System.out.println("allReusltsName = " + allReusltsName.size());
+        for (int i = 0; i < wholePrice.size(); i++) {
+            fullPrice.add("$"+wholePrice.get(i).getText()+"."+centsPrice.get(i).getText());
+        }
 
         int randomNr = rand.nextInt(allReusltsName.size());
         String name = allReusltsName.get(randomNr).getText();
-        String price = allReusltsPrice.get(randomNr).getText();
-        System.out.println("price = " + price);
+        String price = fullPrice.get(randomNr);
 
         allReusltsName.get(randomNr).click();
-        Thread.sleep(2000);
+
         Select quantity = new Select(driver.findElement(By.id("quantity")));
             String actualQuantity = quantity.getFirstSelectedOption().getAttribute("innerHTML").replaceAll("\\s", "");
 
             Assert.assertEquals(actualQuantity,"1");
-
+        Thread.sleep(1000);
             String nameOnPage = driver.findElement(By.id("productTitle")).getText();
             String priceOnPage = driver.findElement(By.id("price_inside_buybox")).getText();
 
@@ -187,5 +192,69 @@ List<WebElement> allLinks = driver.findElements(By.tagName("a"));
 
     }
 
+    @Test
+    public void prime() throws InterruptedException {
+        driver.get("https://amazon.com");
+        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+        searchBox.sendKeys("wooden spoon"+ Keys.ENTER);
+
+
+        WebElement prime = driver.findElement(By.cssSelector("div[class='s-expand-height s-include-content-margin s-border-bottom s-latency-cf-section']  > div >div>div>div>span>span> i"));
+
+        System.out.println(prime.getAttribute("aria-label"));
+
+        //WebElement pCheckBox =  driver.findElement(By.xpath("//label/i"));
+        //pCheckBox.click();
+    }
+
+    @Test
+    public void more_spoons() throws InterruptedException {
+        driver.get("https://amazon.com");
+        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+        searchBox.sendKeys("wooden spoon"+ Keys.ENTER);
+
+        List<WebElement> brands = driver.findElements(By.xpath("//li[starts-with(@id, 'p_89')]"));
+        List<String> brandsBefore = BrowserUtils.getElementsText(brands);
+        WebElement pCheckBox =  driver.findElement(By.xpath("//label/i"));
+        pCheckBox.click();
+        Thread.sleep(3000);
+        List<WebElement> brandsPrime = driver.findElements(By.xpath("//li[starts-with(@id, 'p_89')]"));
+        List<String> brandsPrimeBefore = BrowserUtils.getElementsText(brandsPrime);
+
+        Assert.assertEquals(brandsBefore,brandsPrimeBefore);
+    }
+
+    @Test
+    public void cheap_spoons() throws InterruptedException {
+        driver.get("https://www.amazon.com/s?k=wooden+spoon&rh=n%3A1063498%2Cp_36%3A1253523011&dc&qid=1585344492&rnid=386465011&ref=sr_nr_p_36_1");
+        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+        searchBox.sendKeys("wooden spoon" + Keys.ENTER);
+
+      WebElement under25 = driver.findElement(By.xpath("//span[.='Under $25']"));
+ under25.click();
+Thread.sleep(3000);
+        List<WebElement> wholePrice = driver.findElements(By.cssSelector("span[class='a-price-whole']"));
+        List<WebElement> centsPrice = driver.findElements(By.cssSelector("span[class='a-price-fraction']"));
+        List<String> wholePriceStr = BrowserUtils.getElementsText(wholePrice);
+        List<String> centsPriceStr = BrowserUtils.getElementsText(centsPrice);
+        List<String> fullPrice = new ArrayList<>();
+
+        for (int i = 0; i < wholePrice.size(); i++) {
+            fullPrice.add(wholePrice.get(i).getText()+"."+centsPrice.get(i).getText());
+        }
+        List<Double> fullDoublePrice = new ArrayList<>();
+        for (String s : fullPrice) {
+            fullDoublePrice.add(Double.parseDouble(s));
+        }
+
+        for (Double aDouble : fullDoublePrice) {
+            System.out.println(aDouble);
+            Assert.assertTrue(aDouble<25);
+        }
+
+
+
+
+    }
 
 }
