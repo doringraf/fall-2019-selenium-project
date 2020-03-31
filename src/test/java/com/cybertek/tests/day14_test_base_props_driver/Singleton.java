@@ -6,7 +6,7 @@ public class Singleton {
 
     }
 
-    static String string ;
+    protected static String string ;
 
     public static String getInstance(){
         if (string==null){

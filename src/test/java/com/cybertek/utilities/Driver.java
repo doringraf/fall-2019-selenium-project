@@ -15,53 +15,53 @@ public class Driver {
 
     private Driver(){ }
 
-    private static WebDriver driver;
+    private static WebDriver driverSetup; // null
 
     public static WebDriver getDriver(){
         // check if the driver has value, if not assign a value
-        if (driver == null){
+        if (driverSetup == null){
             // get the driver type from properties file
             String browser = ConfigurationReader.getProperty("browser");
 
             switch (browser){
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver();
+                    driverSetup = new ChromeDriver();
                     break;
                 case "chrome-headless":
                     WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver(new ChromeOptions().setHeadless(true));
+                    driverSetup = new ChromeDriver(new ChromeOptions().setHeadless(true));
                     break;
                 case "firefox":
                     WebDriverManager.firefoxdriver().setup();
-                    driver = new FirefoxDriver();
+                    driverSetup = new FirefoxDriver();
                     break;
                 case "firefox-headless":
                     WebDriverManager.firefoxdriver().setup();
-                    driver = new FirefoxDriver(new FirefoxOptions().setHeadless(true));
+                    driverSetup = new FirefoxDriver(new FirefoxOptions().setHeadless(true));
                     break;
                 case "ie":
                     if (!System.getProperty("os.name").toLowerCase().contains("windows"))
                         throw new WebDriverException("Your OS doesn't support Internet Explorer");
                     WebDriverManager.iedriver().setup();
-                    driver = new InternetExplorerDriver();
+                    driverSetup = new InternetExplorerDriver();
                     break;
 
                 case "edge":
                     if (!System.getProperty("os.name").toLowerCase().contains("windows"))
                         throw new WebDriverException("Your OS doesn't support Edge");
                     WebDriverManager.edgedriver().setup();
-                    driver = new EdgeDriver();
+                    driverSetup = new EdgeDriver();
                     break;
 
                 case "safari":
                     if (!System.getProperty("os.name").toLowerCase().contains("mac"))
                         throw new WebDriverException("Your OS doesn't support Safari");
                     WebDriverManager.getInstance(SafariDriver.class).setup();
-                    driver = new SafariDriver();
+                    driverSetup = new SafariDriver();
                     break;
             }
         }
-        return driver;
+        return driverSetup;
     }
 }

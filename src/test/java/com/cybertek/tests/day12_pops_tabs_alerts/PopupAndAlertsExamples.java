@@ -41,6 +41,7 @@ public class PopupAndAlertsExamples {
         Alert alert = driver.switchTo().alert();
         alert.accept();
         Thread.sleep(3000);
+
     }
 
     @Test
@@ -72,5 +73,19 @@ public class PopupAndAlertsExamples {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void multiplePopups() throws InterruptedException {
+        driver.get("https://www.tutorialsteacher.com/codeeditor?cid=js-1");
+
+        Alert alert = driver.switchTo().alert();
+        Thread.sleep(3000);
+        alert.accept();
+        Thread.sleep(3000);
+        alert.accept();
+        Thread.sleep(3000);
+        alert.accept();
+    }
+
 
 }
