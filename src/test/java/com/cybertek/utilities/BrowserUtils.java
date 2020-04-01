@@ -23,6 +23,18 @@ public class BrowserUtils {
         return listStr;
     }
 
+    // WebElement to Integer
+    public static List<Integer> getElementsINTEGER(List<WebElement> listEl){
+        // give a webelement list and return string elements
+        List<Integer> listStr = new ArrayList<>();
+        for (WebElement element : listEl) {
+            listStr.add(Integer.parseInt(element.getText()));
+        }
+        return listStr;
+    }
+
+
+
     // write a utility that takes a String url,
     // changes to tab with given url,
     // if such title is not found, go back to original window
@@ -35,4 +47,6 @@ public class BrowserUtils {
             }
         }
     }
+
+
 }

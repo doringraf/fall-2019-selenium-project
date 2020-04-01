@@ -7,15 +7,16 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public abstract class TestBase {
-   protected WebDriver driver;
+    protected WebDriver driver;
 
     @BeforeMethod
-    public void setUpTest(){
+    public void setUpMethod() {
         driver = Driver.getDriver();
+
     }
 
     @AfterMethod
-    public void tearDownMethod(){
-        driver.quit();
+    public void tearDownMethod() throws InterruptedException {
+        Driver.closeDriver();
     }
 }
