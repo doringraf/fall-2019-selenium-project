@@ -16,6 +16,9 @@ public class CssExample {
 
         Thread.sleep(2000);
         driver.quit();
+
+
+     ///   input[id^='recurrence']  -- find input with id that starts with
     }
 }
 

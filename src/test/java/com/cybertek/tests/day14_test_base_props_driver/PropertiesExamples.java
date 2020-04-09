@@ -3,8 +3,11 @@ package com.cybertek.tests.day14_test_base_props_driver;
 import com.cybertek.utilities.ConfigurationReader;
 import com.cybertek.utilities.WebDriverFactory;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class PropertiesExamples {
@@ -15,6 +18,7 @@ public class PropertiesExamples {
         System.out.println(System.getProperty("os.version"));
         System.out.println(System.getProperty("user.home"));
         System.out.println(System.getProperty("user.name"));
+        System.out.println(System.getProperty("user.dir"));
 
         //url browser
         // Properties => class from java that save key value combinations
@@ -56,3 +60,4 @@ public class PropertiesExamples {
 
 
 }
+

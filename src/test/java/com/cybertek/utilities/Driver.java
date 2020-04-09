@@ -13,7 +13,7 @@ import org.openqa.selenium.safari.SafariDriver;
 
 public class Driver {
 
-    private Driver(){ }
+    private Driver(){}
 
     private static WebDriver driver; // null
 
@@ -65,8 +65,10 @@ public class Driver {
         return driver;
     }
 
-    public static void closeDriver(){
-        driver.quit();
-        driver = null;
+    public static void closeDriver() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
     }
 }
